@@ -1,0 +1,6 @@
+# Neovimのキャッシュ・一時ファイル
+.DS_Store
+*.swp
+*.swo
+*~
+.luarc.json
