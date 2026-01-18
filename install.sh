@@ -5,17 +5,33 @@ set -e
 
 echo "Installing Language Servers..."
 
-## TypeScript/JavaScript
-npm install -g typescript typescript-language-server
+# Check if volta is installed
+if command -v volta &> /dev/null; then
+    echo "Using Volta for npm packages..."
+
+    ## TypeScript/JavaScript
+    volta install typescript typescript-language-server
+
+    ## CSS, HTML, JSON
+    volta install vscode-langservers-extracted
+
+    ## Biome (Formatter & Linter)
+    volta install @biomejs/biome
+else
+    echo "Using npm for global packages..."
+
+    ## TypeScript/JavaScript
+    npm install -g typescript typescript-language-server
+
+    ## CSS, HTML, JSON
+    npm install -g vscode-langservers-extracted
+
+    ## Biome (Formatter & Linter)
+    npm install -g @biomejs/biome
+fi
 
 ## Lua
 brew install lua-language-server
-
-## CSS, HTML, JSON
-npm install -g vscode-langservers-extracted
-
-## Biome (Formatter & Linter)
-npm install -g @biomejs/biome
 
 echo "✅ Installation complete!"
 echo ""
