@@ -15,3 +15,5 @@ map('n', '<Leader>w', ':w<CR>', { noremap = true })
 map('n', '<Leader>q', ':q<CR>', { noremap = true })
 map('n', '<Leader>x', ':wq<CR>', { noremap = true })
 
+-- clear search highlight
+map('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true })
