@@ -65,6 +65,25 @@ return {
     })
 
     -- =========================
+    -- lua_ls 専用設定
+    -- =========================
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+          runtime = {
+            version = "LuaJIT",
+          },
+          workspace = {
+            checkThirdParty = false,
+          },
+        },
+      },
+    })
+
+    -- =========================
     -- Enable LSP servers
     -- =========================
     vim.lsp.enable("ts_ls")
