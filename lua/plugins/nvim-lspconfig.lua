@@ -110,10 +110,11 @@ return {
         local buffer = vim.lsp.buf
 
         -- 基本 LSP 操作
-        vim.keymap.set("n", "gD", buffer.declaration, createOpts("Go to declaration"))
-        vim.keymap.set("n", "gd", buffer.definition, createOpts("Go to definition"))
-        vim.keymap.set("n", "gi", buffer.implementation, createOpts("Go to implementation"))
-        vim.keymap.set("n", "gr", buffer.references, createOpts("Show references"))
+        -- glance.nvim と競合しないように大文字キーに割り当て
+        vim.keymap.set("n", "GD", buffer.definition, createOpts("Go to definition"))
+        vim.keymap.set("n", "GI", buffer.implementation, createOpts("Go to implementation"))
+        vim.keymap.set("n", "GR", buffer.references, createOpts("Show references"))
+        vim.keymap.set("n", "GY", buffer.type_definition, createOpts("Go to type definition"))
 
         -- biome 専用設定
         if client.name == "biome" then
