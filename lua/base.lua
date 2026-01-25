@@ -1,8 +1,9 @@
 vim.o.number = true
 vim.o.smartindent = true
-vim.o.expandtab = true
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
+vim.o.expandtab = true  -- Tab をスペースに
+vim.o.tabstop = 2       -- 見た目のタブ幅
+vim.o.shiftwidth = 2    -- インデント幅
+vim.o.softtabstop = 2   -- <Tab> 押下時のスペース幅
 vim.o.termguicolors = true
 vim.o.ruler = true
 
