@@ -1,4 +1,4 @@
 require("base")
 require("keymaps")
-require("ime")
+require("config.im-select")
 require("config.lazy")
