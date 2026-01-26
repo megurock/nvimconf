@@ -30,7 +30,9 @@ return {
       capabilities = capabilities,
     })
 
-    -- biome 専用設定（ローカル優先、グローバルフォールバック）
+    -- =========================
+    -- biome 専用設定
+    -- =========================
     vim.lsp.config("biome", {
       cmd = { "biome", "lsp-proxy" },
       filetypes = {
@@ -46,12 +48,12 @@ return {
       root_markers = { "biome.json", "biome.jsonc" },
       single_file_support = false,
       on_new_config = function(new_config, root_dir)
-        -- pnpm プロジェクトかチェック
-        local has_pnpm_lock = vim.fn.filereadable(root_dir .. "/pnpm-lock.yaml") == 1
+        local has_pnpm_lock =
+          vim.fn.filereadable(root_dir .. "/pnpm-lock.yaml") == 1
           or vim.fn.filereadable(root_dir .. "/pnpm-lock.yml") == 1
 
-        -- ローカルに biome がインストールされているかチェック
-        local has_local_biome = vim.fn.executable(root_dir .. "/node_modules/.bin/biome") == 1
+        local has_local_biome =
+          vim.fn.filereadable(root_dir .. "/node_modules/.bin/biome") == 1
 
         if has_local_biome then
           if has_pnpm_lock then
@@ -60,7 +62,6 @@ return {
             new_config.cmd = { "npx", "biome", "lsp-proxy" }
           end
         end
-        -- ローカルになければグローバルの biome を使用（デフォルトのまま）
       end,
     })
 
@@ -94,31 +95,62 @@ return {
     vim.lsp.enable("biome")
 
     -- =========================
-    -- LspAttach（動的な機能も含めて判定）
+    -- LspAttach
     -- =========================
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if client == nil then
+        if not client then
           return
         end
 
-        local function createOpts(description)
-          return { buffer = ev.buf, desc = "LSP " .. description }
+        local function createOpts(desc)
+          return { buffer = ev.buf, desc = "LSP " .. desc }
         end
 
         local buffer = vim.lsp.buf
 
-        -- 基本 LSP 操作
-        -- glance.nvim と競合しないように大文字キーに割り当て
-        vim.keymap.set("n", "GD", buffer.definition, createOpts("Go to definition"))
-        vim.keymap.set("n", "GI", buffer.implementation, createOpts("Go to implementation"))
-        vim.keymap.set("n", "GR", buffer.references, createOpts("Show references"))
-        vim.keymap.set("n", "GY", buffer.type_definition, createOpts("Go to type definition"))
+        -- -------------------------
+        -- 確実に戻れるジャンプ用ラッパー
+        -- -------------------------
+        local function lsp_jump(fn)
+          return function()
+            vim.cmd("normal! m'")
+            fn()
+          end
+        end
 
-        -- biome 専用設定
+        -- 基本 LSP 操作（すべて戻れる）
+        vim.keymap.set(
+          "n",
+          "GD",
+          lsp_jump(buffer.definition),
+          createOpts("Go to definition")
+        )
+
+        vim.keymap.set(
+          "n",
+          "GI",
+          lsp_jump(buffer.implementation),
+          createOpts("Go to implementation")
+        )
+
+        vim.keymap.set(
+          "n",
+          "GR",
+          lsp_jump(buffer.references),
+          createOpts("Show references")
+        )
+
+        vim.keymap.set(
+          "n",
+          "GY",
+          lsp_jump(buffer.type_definition),
+          createOpts("Go to type definition")
+        )
+
+        -- biome 専用：保存時フォーマット
         if client.name == "biome" then
-          -- 保存時フォーマット
           vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = ev.buf,
             desc = "Format on save with Biome",
@@ -133,9 +165,14 @@ return {
           })
         end
 
-        -- code action のあるLSPのみ設定
+        -- code action
         if client.supports_method("textDocument/codeAction") then
-          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, createOpts("Code action"))
+          vim.keymap.set(
+            "n",
+            "<leader>ca",
+            vim.lsp.buf.code_action,
+            createOpts("Code action")
+          )
         end
       end,
     })
@@ -158,7 +195,7 @@ return {
       vim.cmd("edit!")
     end, { desc = "Biome format --write" })
 
-    -- Biome Check (lint + format + organize imports)
+    -- Biome Check
     vim.keymap.set("n", "<leader>cw", function()
       local filepath = vim.fn.expand("%:p")
       vim.cmd("silent !biome check --write " .. vim.fn.shellescape(filepath))
@@ -166,3 +203,4 @@ return {
     end, { desc = "Biome check --write" })
   end,
 }
+
