@@ -4,31 +4,62 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "sindrets/diffview.nvim",
+
+    -- 追加
+    {
+      "isakbm/gitgraph.nvim",
+      opts = {
+        symbols = {
+          merge_commit = "",
+          commit = "",
+        },
+        format = {
+          timestamp = "%H:%M:%S %d-%m-%Y",
+          fields = { "hash", "timestamp", "author", "branch_name", "subject" },
+        },
+        hooks = {
+          on_select_commit = function(commit)
+            -- Enter で diffview を開く
+            vim.cmd("DiffviewOpen " .. commit.hash .. "^!")
+          end,
+        },
+      },
+    },
   },
+
   config = function()
     local neogit = require("neogit")
 
-    -- Neogit の設定
     neogit.setup({
       integrations = {
-        diffview = true, -- diffview と統合
+        diffview = true,
       },
       disable_commit_confirmation = true,
       signs = {
-        added    = "+",
-        changed  = "~",
-        removed  = "-",
+        added     = "+",
+        changed   = "~",
+        removed   = "-",
         untracked = "?",
       },
-      kind = "split",  -- 左側に分割表示
+      kind = "split",
+
+      -- ★ここが neogit × gitgraph の肝
+      log_view = {
+        kind = "split",
+        renderer = "gitgraph",
+      },
     })
 
-    -- キーマップ: <leader>g で Neogit を左側に表示
+    -- Neogit 起動
     vim.keymap.set("n", "<leader>g", function()
       neogit.open({ kind = "split" })
     end, { noremap = true, silent = true })
 
-    -- diffview.nvim の設定（簡易版）
+    -- Git graph を直接開きたい場合
+    vim.keymap.set("n", "<leader>G", function()
+      require("gitgraph").draw({}, { all = true, max_count = 500 })
+    end, { noremap = true, silent = true })
+
     require("diffview").setup({
       diff_binaries = false,
       enhanced_diff_hl = true,
@@ -37,3 +68,4 @@ return {
     })
   end,
 }
+
