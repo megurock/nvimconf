@@ -5,6 +5,9 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
+  filters = {
+    custom = { ".DS_Store" },
+  },
   keys = {
     -- トグル（今まで通り）
     { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Toggle File Explorer" },
@@ -25,7 +28,11 @@ return {
     },
   },
   config = function()
-    require("nvim-tree").setup({})
+    require("nvim-tree").setup({
+      filters = {
+        custom = { ".DS_Store" },
+      },
+    })
   end,
 }
 
