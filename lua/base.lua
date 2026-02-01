@@ -6,6 +6,7 @@ vim.o.shiftwidth = 2    -- インデント幅
 vim.o.softtabstop = 2   -- <Tab> 押下時のスペース幅
 vim.o.termguicolors = true
 vim.o.ruler = true
+vim.o.clipboard = "unnamedplus" -- OS のクリップボードに yank する
 
 -- fold を有効化
 vim.o.foldmethod = 'indent'
