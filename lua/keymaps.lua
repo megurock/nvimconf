@@ -17,3 +17,8 @@ map('n', '<Leader>x', ':wq<CR>', { noremap = true })
 
 -- clear search highlight
 map('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true })
+
+-- command-line history navigation (home row friendly)
+map('c', '<C-p>', '<Up>',   { noremap = true })
+map('c', '<C-n>', '<Down>', { noremap = true })
+
