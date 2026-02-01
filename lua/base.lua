@@ -7,6 +7,9 @@ vim.o.softtabstop = 2   -- <Tab> 押下時のスペース幅
 vim.o.termguicolors = true
 vim.o.ruler = true
 vim.o.clipboard = "unnamedplus" -- OS のクリップボードに yank する
+vim.o.history = 200          -- コマンド・検索などの履歴を最大 200 件まで保持
+vim.o.wildmenu = true        -- コマンドライン補完時に候補をメニュー表示する
+vim.opt.wildmode = { "longest:full", "full" } -- <Tab> 補完の挙動：最長一致→候補一覧を順に表示
 
 -- fold を有効化
 vim.o.foldmethod = 'indent'
