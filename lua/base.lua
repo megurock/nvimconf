@@ -20,6 +20,15 @@ vim.o.foldcolumn = '1'
 -- リーダーの設定
 vim.g.mapleader = ' '
 
+-- ヘルプの設定
+vim.api.nvim_create_user_command("H", function(opts)
+  vim.cmd("tab help " .. opts.args)
+end, { nargs = "+" })
+
+vim.keymap.set("n", "K", function()
+  vim.cmd("tab help " .. vim.fn.expand("<cword>"))
+end, { silent = true })
+
 -- 危険な Unicode 空白をハイライト
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
