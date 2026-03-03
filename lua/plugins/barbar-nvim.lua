@@ -62,7 +62,7 @@ return {
     -- タブ操作
     -- =========================
     map("n", "<leader>bd", "<Cmd>BufferClose<CR>", opts_silent) -- 閉じる
-    map("n", "<leader>bo", "<Cmd>BufferCloseAllButCurrent<CR>", opts_silent) -- 他を閉じる
+    map("n", "<leader>bD", "<Cmd>BufferCloseAllButCurrent<CR>", opts_silent) -- 他をすべて閉じる
     map("n", "<leader>bp", "<Cmd>BufferPin<CR>", opts_silent) -- ピン留め
 
     -- =========================
