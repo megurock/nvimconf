@@ -16,9 +16,13 @@ map('n', '<Leader>q', ':q<CR>', { noremap = true })
 map('n', '<Leader>x', ':wq<CR>', { noremap = true })
 
 -- clear search highlight
-map('n', '<Esc><Esc>', ':nohlsearch<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Esc>', function()
+  vim.cmd('nohlsearch')
+end, { silent = true })
 
 -- command-line history navigation (home row friendly)
 map('c', '<C-p>', '<Up>',   { noremap = true })
 map('c', '<C-n>', '<Down>', { noremap = true })
 
+-- terminal mode to normal mode 
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]])
