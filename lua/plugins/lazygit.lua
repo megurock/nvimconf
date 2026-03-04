@@ -12,9 +12,6 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  keys = {
-    { "<leader>lg", "<cmd>LazyGit<cr>", desc = "Open LazyGit" },
-  },
   config = function()
     -- optional: floating window styling
     vim.g.lazygit_floating_window_winblend = 0
