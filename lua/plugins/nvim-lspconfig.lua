@@ -182,25 +182,25 @@ return {
     -- =========================
 
     -- Biome Lint
-    vim.keymap.set("n", "<leader>lw", function()
+    vim.keymap.set("n", "<leader>bl", function()
       local filepath = vim.fn.expand("%:p")
       vim.cmd("silent !biome lint --write " .. vim.fn.shellescape(filepath))
       vim.cmd("edit!")
-    end, { desc = "Biome lint --write" })
+    end, { desc = "Biome lint" })
 
     -- Biome Format
-    vim.keymap.set("n", "<leader>fw", function()
+    vim.keymap.set("n", "<leader>bf", function()
       local filepath = vim.fn.expand("%:p")
       vim.cmd("silent !biome format --write " .. vim.fn.shellescape(filepath))
       vim.cmd("edit!")
-    end, { desc = "Biome format --write" })
+    end, { desc = "Biome format" })
 
     -- Biome Check
-    vim.keymap.set("n", "<leader>cw", function()
+    vim.keymap.set("n", "<leader>bc", function()
       local filepath = vim.fn.expand("%:p")
       vim.cmd("silent !biome check --write " .. vim.fn.shellescape(filepath))
       vim.cmd("edit!")
-    end, { desc = "Biome check --write" })
+    end, { desc = "Biome check" })
   end,
 }
 
