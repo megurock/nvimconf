@@ -74,6 +74,18 @@ return {
     end, { desc = "Open floating terminal" })
 
     ------------------------------------------------------------------
+    -- lazygit（tab）
+    ------------------------------------------------------------------
+    vim.keymap.set("n", "<leader>lg", function()
+      local lazygit = Terminal:new({
+        cmd = "lazygit",
+        direction = "tab",
+        close_on_exit = true,
+      })
+      lazygit:toggle()
+    end, { desc = "Open LazyGit (tab)" })
+
+    ------------------------------------------------------------------
     -- terminal mode keymaps
     ------------------------------------------------------------------
     vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", {
