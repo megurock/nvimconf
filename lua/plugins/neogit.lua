@@ -60,6 +60,13 @@ return {
       require("gitgraph").draw({}, { all = true, max_count = 500 })
     end, { noremap = true, silent = true })
 
+    -- Diffview を閉じる
+    vim.keymap.set("n", "<leader>dc", "<cmd>DiffviewClose<CR>", {
+      noremap = true,
+      silent = true,
+      desc = "Close Diffview",
+    })
+
     require("diffview").setup({
       diff_binaries = false,
       enhanced_diff_hl = true,
